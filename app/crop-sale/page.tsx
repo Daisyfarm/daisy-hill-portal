@@ -29,7 +29,7 @@ export default function AddCropSalePage() {
         quantity: parseFloat(form.quantity),
         field: form.field || 'N/A',
         created_at: new Date()
-      }]).catch(() => {});
+      }]);
 
       await fetch(HK, {
         method: 'POST',
