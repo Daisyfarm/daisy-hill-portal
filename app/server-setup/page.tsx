@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Server, ArrowLeft, Send } from 'lucide-react';
 
-const sb = createClient('https://dlwhztcqntalrhfrefsk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsd2h6dGNxbnRhbHRoZnJlZnNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzM2ODgsImV4cCI6MjA4OTQ0OTY4OH0.z_TOBv8Ky9Ksx3hTu19ScXHGcO86-GmwjdYFbdOt8ZY');
+const sb = createClient('https://dlwhztcqntalrhfrefsk.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6I3Rsd2h6dGNxbnRhbHRoZnJlZnNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NzM2ODgsImV4cCI6MjA4OTQ0OTY4OH0.z_TOBv8Ky9Ksx3hTu19ScXHGcO86-GmwjdYFbdOt8ZY');
 const HK = "https://discord.com/api/webhooks/1484184649847804016/o_bj5hINtTTZEux2RBegwBEqLUlNYIMS7Azomm4xadN7S6g353sEJhaaIiExvh0Ct4Za";
 
 export default function ServerSetupPage() {
@@ -20,11 +20,13 @@ export default function ServerSetupPage() {
     e.preventDefault();
     setSubmitting(true);
     try {
-      await sb.from('land_parcels').insert([{
-        name: form.serverName,
-        status: 'Online',
-        owner: form.region
-      }]).catch(() => {});
+      await Promise.resolve(
+        sb.from('land_parcels').insert([{
+          name: form.serverName,
+          status: 'Online',
+          owner: form.region
+        }])
+      ).catch(() => {});
 
       await fetch(HK, {
         method: 'POST',
@@ -32,7 +34,7 @@ export default function ServerSetupPage() {
         body: JSON.stringify({
           content: `🚀 **G-PORTAL SERVER CONFIGURED**\nServer: **${form.serverName}**\nMap: **${form.map}**\nSlots: **${form.slotCount} Players**\nRegion: **${form.region}**`
         })
-      })
+      });
 
       alert("Server telemetry profile successfully saved!");
       window.location.href = '/dashboard';
@@ -63,7 +65,7 @@ export default function ServerSetupPage() {
         <div style={{ background:'#131826', padding:'40px', borderRadius:'10px', width:'100%', maxWidth:'650px', border:'1px solid #1e293b', boxShadow:'0 10px 25px rgba(0,0,0,0.5)' }}>
           
           <div style={{marginBottom:'30px', borderBottom:'1px solid #1e293b', paddingBottom:'15px'}}>
-            link your upcoming G-Portal dedicated server instance so the portal can sync player logs, contracts, and yields instantly upon launch.
+            Link your upcoming G-Portal dedicated server instance so the portal can sync player logs, contracts, and yields instantly upon launch.
           </div>
 
           <form onSubmit={handleSubmit} style={{display:'flex', flexDirection:'column', gap:'20px'}}>
@@ -100,7 +102,7 @@ export default function ServerSetupPage() {
                   value={form.slotCount}
                   onChange={e=>setForm({...form, slotCount: e.target.value})}
                 >
-                  <option value="16">16 Slots</option>infected
+                  <option value="16">16 Slots</option>
                   <option value="8">8 Slots</option>
                   <option value="20">20 Slots</option>
                 </select>
@@ -145,4 +147,3 @@ export default function ServerSetupPage() {
     </div>
   );
 }
-
