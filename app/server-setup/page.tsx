@@ -32,7 +32,7 @@ export default function ServerSetupPage() {
         body: JSON.stringify({
           content: `🚀 **G-PORTAL SERVER CONFIGURED**\nServer: **${form.serverName}**\nMap: **${form.map}**\nSlots: **${form.slotCount} Players**\nRegion: **${form.region}**`
         })
-      }).catch(() => {});
+      })
 
       alert("Server telemetry profile successfully saved!");
       window.location.href = '/dashboard';
