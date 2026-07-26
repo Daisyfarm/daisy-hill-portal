@@ -1,8 +1,0 @@
-{
-  "/admin/page": "app/admin/page.js",
-  "/accounting/page": "app/accounting/page.js",
-  "/whitelist/page": "app/whitelist/page.js",
-  "/agreements/page": "app/agreements/page.js",
-  "/registration/page": "app/registration/page.js",
-  "/finance/page": "app/finance/page.js"
-}
