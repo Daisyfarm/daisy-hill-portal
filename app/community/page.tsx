@@ -104,7 +104,7 @@ export default function CommunityPage() {
               textTransform: 'uppercase',
               fontSize: '11px',
               display: 'flex',
-              alignItem: 'center',
+              alignItems: 'center',
               gap: '8px',
               letterSpacing: '0.05em'
             }}
