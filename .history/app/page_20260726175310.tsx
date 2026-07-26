@@ -1,0 +1,139 @@
+"use client";
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
+const sb = createClient(
+  'https://yioyfxvabhzvkwuljcki.supabase.co',
+  'sb_publishable_wvc-fOTg4S73QnDR3PEK0g_fDO6x4NG'
+);
+
+export default function HomePage() {
+  const [stats, setStats] = useState<any[]>([]);
+  const [ld, setLd] = useState(true);
+
+  const load = async () => {
+    try {
+      const { data } = await sb.from('farm_network').select('*');
+      if (data && data.length > 0) {
+        setStats(data);
+      } else {
+        setStats([
+          { id: 1, sector: 'Sector Alpha', location: 'Montana North Hub', status: 'ONLINE', telemetry: 'Optimal (99.8%)', bandwidth: '1.2 GB/s' },
+          { id: 2, sector: 'Sector Beta', location: 'Valley Floor Relay', status: 'ONLINE', telemetry: 'Nominal (98.4%)', bandwidth: '850 MB/s' },
+          { id: 3, sector: 'Sector Gamma', location: 'Central Pivot Station', status: 'SYNCING', telemetry: 'Re-indexing (84.1%)', bandwidth: '420 MB/s' }
+        ]);
+      }
+    } catch (err) {
+      console.error(err);
+      setStats([
+        { id: 1, sector: 'Sector Alpha', location: 'Montana North Hub', status: 'ONLINE', telemetry: 'Optimal (99.8%)', bandwidth: '1.2 GB/s' },
+        { id: 2, sector: 'Sector Beta', location: 'Valley Floor Relay', status: 'ONLINE', telemetry: 'Nominal (98.4%)', bandwidth: '850 MB/s' },
+        { id: 3, sector: 'Sector Gamma', location: 'Central Pivot Station', status: 'SYNCING', telemetry: 'Re-indexing (84.1%)', bandwidth: '420 MB/s' }
+      ]);
+    } finally {
+      setLd(false);
+    }
+  };
+
+  useEffect(() => { load(); }, []);
+
+  if (ld) {
+    return (
+      <div style={{background:'#090d16', color:'#38bdf8', height:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', fontFamily:'Inter, sans-serif', gap:'15px'}}>
+        <div style={{width:'40px', height:'40px', border:'4px solid #1f2937', borderTop:'4px solid #38bdf8', borderRadius:'50%', animation:'spin 1s linear infinite'}}></div>
+        <div style={{fontSize:'14px', letterSpacing:'1px', fontWeight:600}}>LOADING DAISY HILL COMMUNITY FARM...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ background:'#090d16', minHeight:'100vh', color:'#f8fafc', fontFamily:'Inter, system-ui, sans-serif', display:'flex', flexDirection:'column' }}>
+      
+      {/* TOP HEADER */}
+      <div style={{ background:'#0b111e', padding:'14px 30px', display:'flex', justifyContent:'space-between', alignItems:'center', borderBottom:'1px solid #1f2937' }}>
+        <div style={{ display:'flex', gap:'30px', alignItems:'center' }}>
+          <div style={{color:'#fff', fontWeight:'800', fontSize:'15px', letterSpacing:'0.5px', display:'flex', alignItems:'center', gap:'8px', cursor:'pointer'}} onClick={() => window.location.href='/'}>
+            <span style={{color:'#4ade80'}}>🌾</span> DAISY HILL COMMUNITY FARM
+          </div>
+        </div>
+        <div style={{display:'flex', gap:'20px', alignItems:'center', fontSize:'12px', fontWeight:'600', flexWrap:'wrap'}}>
+          {[
+            { label: 'MARKET INDEX', path: '/market' },
+            { label: 'CONTRACTS', path: '/contracts' },
+            { label: 'FLEET', path: '/fleet' },
+            { label: 'DISPATCH', path: '/dispatch' },
+            { label: 'EVENTS', path: '/events' },
+            { label: 'FIELDS', path: '/fields' },
+            { label: 'IMPORTS', path: '/imports' },
+            { label: 'FINANCE', path: '/finance' }
+          ].map((item, idx) => (
+            <span key={idx} onClick={() => window.location.href = item.path} style={{color:'#94a3b8', cursor:'pointer', fontSize:'11px', fontWeight:'700', letterSpacing:'0.5px'}}>
+              {item.label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* MAIN CONTAINER */}
+      <div style={{ flex:1, background:'linear-gradient(rgba(9, 13, 22, 0.88), rgba(9, 13, 22, 0.96)), url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600") center/cover', padding:'40px' }}>
+        <div style={{ maxWidth:'1300px', margin:'0 auto' }}>
+          
+          {/* TITLE & REGISTRATION STATUS */}
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'30px', flexWrap:'wrap', gap:'20px' }}>
+            <div>
+              <div style={{fontSize:'11px', color:'#4ade80', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase', marginBottom:'6px'}}>
+                COMMUNITY PORTAL • REGISTRATION ACTIVE
+              </div>
+              <h1 style={{fontSize:'36px', fontWeight:'800', margin:0, color:'#fff', letterSpacing:'-0.5px'}}>Daisy Hill Community Farm</h1>
+            </div>
+            <div style={{ display:'flex', gap:'15px' }}>
+              <div style={{ background:'rgba(17, 24, 39, 0.85)', border:'1px solid #374151', padding:'10px 18px', borderRadius:'8px', display:'flex', flexDirection:'column', gap:'2px' }}>
+                <span style={{fontSize:'10px', color:'#94a3b8', fontWeight:'700', textTransform:'uppercase'}}>Registration ID</span>
+                <span style={{fontSize:'13px', fontWeight:'800', color:'#4ade80'}}>DHCF-2026-REG</span>
+              </div>
+              <div style={{ background:'rgba(17, 24, 39, 0.85)', border:'1px solid #374151', padding:'10px 18px', borderRadius:'8px', display:'flex', flexDirection:'column', gap:'2px' }}>
+                <span style={{fontSize:'10px', color:'#94a3b8', fontWeight:'700', textTransform:'uppercase'}}>System Status</span>
+                <span style={{fontSize:'13px', fontWeight:'800', color:'#38bdf8'}}>VERIFIED</span>
+              </div>
+            </div>
+          </div>
+
+          {/* OVERVIEW SECTION */}
+          <div style={{ background:'rgba(17, 24, 39, 0.85)', backdropFilter:'blur(10px)', borderRadius:'12px', border:'1px solid #374151', padding:'30px', boxShadow:'0 10px 25px -5px rgba(0,0,0,0.5)' }}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', borderBottom:'1px solid #374151', paddingBottom:'15px', marginBottom:'20px'}}>
+              <div>
+                <h2 style={{fontSize:'18px', fontWeight:'800', margin:'0 0 4px 0', color:'#fff'}}>Official Community Registration</h2>
+                <p style={{fontSize:'12px', color:'#94a3b8', margin:0}}>Core credentials and operational parameters for Daisy Hill Community Farm.</p>
+              </div>
+              <span style={{fontSize:'11px', fontWeight:'700', color:'#4ade80', background:'rgba(74,222,128,0.1)', padding:'5px 12px', borderRadius:'6px', border:'1px solid rgba(74,222,128,0.2)', display:'flex', alignItems:'center', gap:'6px'}}>
+                <span style={{width:'6px', height:'6px', background:'#4ade80', borderRadius:'50%', display:'inline-block'}}></span> REGISTERED
+              </span>
+            </div>
+
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(280px, 1fr))', gap:'20px'}}>
+              <div style={{background:'rgba(11, 17, 30, 0.6)', padding:'20px', borderRadius:'8px', border:'1px solid #1f2937'}}>
+                <div style={{fontSize:'11px', color:'#94a3b8', fontWeight:'700', marginBottom:'6px'}}>ESTABLISHMENT</div>
+                <div style={{fontSize:'15px', fontWeight:'800', color:'#fff'}}>Daisy Hill Agricultural Trust</div>
+              </div>
+              <div style={{background:'rgba(11, 17, 30, 0.6)', padding:'20px', borderRadius:'8px', border:'1px solid #1f2937'}}>
+                <div style={{fontSize:'11px', color:'#94a3b8', fontWeight:'700', marginBottom:'6px'}}>OPERATIONAL SCOPE</div>
+                <div style={{fontSize:'15px', fontWeight:'800', color:'#fff'}}>Multi-Sector Cultivation & Grid</div>
+              </div>
+              <div style={{background:'rgba(11, 17, 30, 0.6)', padding:'20px', borderRadius:'8px', border:'1px solid #1f2937'}}>
+                <div style={{fontSize:'11px', color:'#94a3b8', fontWeight:'700', marginBottom:'6px'}}>PRIMARY CONTACT</div>
+                <div style={{fontSize:'15px', fontWeight:'800', color:'#fff'}}>Command Hub / Administration</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <div style={{ background:'#0b111e', padding:'15px 30px', textAlign:'center', fontSize:'11px', color:'#64748b', borderTop:'1px solid #1f2937', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <span>DAISY HILL FARMING COMMUNITY © 2026</span>
+        <span>DAISY HILL COMMUNITY FARM • REGISTERED PORTAL</span>
+      </div>
+    </div>
+  );
+}

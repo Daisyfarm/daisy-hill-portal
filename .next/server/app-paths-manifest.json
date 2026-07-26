@@ -1,7 +1,8 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/market/page": "app/market/page.js",
-  "/fleet/page": "app/fleet/page.js",
-  "/dispatch/page": "app/dispatch/page.js",
-  "/page": "app/page.js"
+  "/admin/page": "app/admin/page.js",
+  "/accounting/page": "app/accounting/page.js",
+  "/whitelist/page": "app/whitelist/page.js",
+  "/agreements/page": "app/agreements/page.js",
+  "/registration/page": "app/registration/page.js",
+  "/finance/page": "app/finance/page.js"
 }
